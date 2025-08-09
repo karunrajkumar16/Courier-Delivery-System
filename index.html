@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RJCouriers - Modern Package Delivery Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="api.js"></script>
+</head>
+<body>
+    <!-- Modern Gradient Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+
+    <!-- Modern Navigation Bar -->
+    <nav class="modern-navbar" id="mainNavbar" style="display: none;">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <span class="brand-text">RJCouriers</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showModule('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showModule('booking')">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Book Courier</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showModule('tracking')">
+                    <i class="fas fa-search"></i>
+                    <span>Track Package</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showModule('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </a>
+                <a href="#" class="nav-link" onclick="showModule('history')">
+                    <i class="fas fa-history"></i>
+                    <span>Booking History</span>
+                </a>
+            </div>
+            
+            <div class="nav-user">
+                <div class="user-menu">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name" id="userNameNav"></span>
+                    <div class="user-dropdown">
+                        <div class="user-role">Customer</div>
+                        <a href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing/Home Page -->
+    <div id="landingModule" class="module-content">
+        <div class="landing-container">
+            <div class="landing-hero">
+                <div class="hero-content">
+                    <div class="brand-logo">
+                        <div class="brand-icon large">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h1>RJCouriers</h1>
+                        <p>Fast, Reliable Package Delivery Service</p>
+                    </div>
+                    
+                    <div class="service-features">
+                        <div class="features-grid">
+                            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shipping-fast"></i>
+                                </div>
+                                <h3>Fast Delivery</h3>
+                                <p>Quick and reliable delivery across India</p>
+                            </div>
+                            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                                <div class="feature-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h3>Real-time Tracking</h3>
+                                <p>Track your package every step of the way</p>
+                            </div>
+                            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h3>Secure Handling</h3>
+                                <p>Your packages are safe with us</p>
+                            </div>
+                            <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                                <div class="feature-icon">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <h3>24/7 Support</h3>
+                                <p>Customer support available round the clock</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-types">
+                        <h2>Delivery Options</h2>
+                        <div class="service-grid">
+                            <div class="service-card">
+                                <div class="service-badge">Standard</div>
+                                <div class="service-price">₹50</div>
+                                <div class="service-time">3-5 business days</div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-badge">Express</div>
+                                <div class="service-price">₹75</div>
+                                <div class="service-time">1-2 business days</div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-badge">Same Day</div>
+                                <div class="service-price">₹100</div>
+                                <div class="service-time">Same day delivery</div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-badge">Premium</div>
+                                <div class="service-price">₹125</div>
+                                <div class="service-time">Priority handling</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-tracking">
+                        <h2>Quick Package Tracking</h2>
+                        <div class="glass-card tracking-quick">
+                            <form id="quickTrackingForm">
+                                <div class="search-input-group">
+                                    <input type="text" id="quickTrackingId" placeholder="Enter Tracking ID (e.g., RJC20250804001)" required>
+                                    <button type="submit" class="btn-modern btn-primary">
+                                        <i class="fas fa-search"></i>
+                                        Track
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="auth-actions">
+                        <h2>Get Started</h2>
+                        <div class="action-buttons">
+                            <button class="btn-modern btn-primary btn-lg" onclick="showAuth('signup')">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Sign Up</span>
+                            </button>
+                            <button class="btn-modern btn-outline btn-lg" onclick="showAuth('login')">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Module -->
+    <div id="authModule" class="module-content" style="display: none;">
+        <div class="auth-container">
+            <div class="glass-card auth-card">
+                <div class="auth-header">
+                    <button class="back-btn" onclick="showLanding()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="auth-role-indicator">
+                        <div class="role-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h2 id="authTitle">Customer Login</h2>
+                            <p id="authSubtitle">Access your delivery dashboard</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="auth-forms">
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="loginEmail" placeholder="Email Address" required>
+                                <label>Email Address</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="loginPassword" placeholder="Password" required>
+                                <label>Password</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-modern btn-primary btn-full">
+                            <span>Login</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <!-- Signup Form -->
+                    <form id="signupForm" class="auth-form" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user input-icon"></i>
+                                    <input type="text" id="signupName" placeholder="Full Name" required>
+                                    <label>Full Name</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-phone input-icon"></i>
+                                    <input type="tel" id="signupPhone" placeholder="Phone Number" required>
+                                    <label>Phone Number</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="signupEmail" placeholder="Email Address" required>
+                                <label>Email Address</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt input-icon"></i>
+                                <textarea id="signupAddress" placeholder="Address" rows="3" required></textarea>
+                                <label>Address</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" id="signupPassword" placeholder="Password" required>
+                                <label>Password</label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-modern btn-primary btn-full">
+                            <span>Create Account</span>
+                            <i class="fas fa-user-plus"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="auth-toggle" id="authToggle">
+                    <p>Don't have an account? <button type="button" class="btn-link" onclick="toggleAuthForm()">Sign up here</button></p>
+                </div>
+                
+                <div class="demo-credentials">
+                    <h4>Demo Credentials:</h4>
+                    <div class="demo-cred" onclick="fillDemoCredentials()">
+                        <strong>Customer:</strong> john@example.com / customer123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container" id="mainContainer">
+        
+        <!-- Customer Dashboard -->
+        <div id="dashboardModule" class="module-content" style="display: none;">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <div class="welcome-section">
+                        <h1>Welcome, <span id="customerName"></span>!</h1>
+                        <p>Manage your deliveries with ease</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="glass-card quick-book">
+                        <div class="card-header">
+                            <h3><i class="fas fa-plus-circle"></i> Book Courier</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Need to send a package? Start booking now!</p>
+                            <button class="btn-modern btn-primary" onclick="showModule('booking')">
+                                <i class="fas fa-plus"></i>
+                                Book New Delivery
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card track-package">
+                        <div class="card-header">
+                            <h3><i class="fas fa-search"></i> Track Package</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Enter your tracking ID to get real-time updates</p>
+                            <button class="btn-modern btn-secondary" onclick="showModule('tracking')">
+                                <i class="fas fa-search"></i>
+                                Track Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card my-profile">
+                        <div class="card-header">
+                            <h3><i class="fas fa-user"></i> My Profile</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>View and update your profile information</p>
+                            <button class="btn-modern btn-accent" onclick="showModule('profile')">
+                                <i class="fas fa-user-edit"></i>
+                                Manage Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card booking-history">
+                        <div class="card-header">
+                            <h3><i class="fas fa-history"></i> Booking History</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>View your previous bookings and deliveries</p>
+                            <button class="btn-modern btn-success" onclick="showModule('history')">
+                                <i class="fas fa-list"></i>
+                                View History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="customerTotalPackages">0</div>
+                            <div class="stat-label">Total Packages</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="customerActivePackages">0</div>
+                            <div class="stat-label">Active Deliveries</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon delivered">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="customerDeliveredPackages">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card recent-packages">
+                    <div class="card-header">
+                        <h3>Recent Activity</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="customerRecentPackages"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Package Booking Module -->
+        <div id="bookingModule" class="module-content" style="display: none;">
+            <div class="booking-container">
+                <div class="booking-header">
+                    <h1><i class="fas fa-plus-circle"></i> Book Courier</h1>
+                    <p>Fill in the details to create a new delivery</p>
+                </div>
+                
+                <div class="booking-grid">
+                    <div class="glass-card booking-form-card">
+                        <form id="bookingForm" class="modern-form">
+                            <div class="form-section">
+                                <h3 class="section-title">Sender Details (Auto-filled)</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="senderName" required readonly>
+                                            <label>Full Name *</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-wrapper">
+                                            <input type="tel" id="senderPhone" required readonly>
+                                            <label>Phone Number *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <textarea id="senderAddress" rows="3" required readonly></textarea>
+                                        <label>Address *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3 class="section-title">Receiver Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <div class="input-wrapper">
+                                            <input type="text" id="receiverName" required>
+                                            <label>Full Name *</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-wrapper">
+                                            <input type="tel" id="receiverPhone" required>
+                                            <label>Phone Number *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="email" id="receiverEmail" required>
+                                        <label>Email Address *</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <textarea id="receiverAddress" rows="3" required></textarea>
+                                        <label>Address *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h3 class="section-title">Package Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <div class="select-wrapper">
+                                            <select id="packageType" required>
+                                                <option value="">Select Type</option>
+                                            </select>
+                                            <label>Package Type *</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-wrapper">
+                                            <input type="number" id="packageWeight" step="0.1" min="0.1" required>
+                                            <label>Weight (kg) *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <div class="checkbox-wrapper">
+                                            <input type="checkbox" id="fragilePackage">
+                                            <label for="fragilePackage">Fragile Item</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="select-wrapper">
+                                            <select id="serviceType" required>
+                                                <option value="">Select Service</option>
+                                            </select>
+                                            <label>Delivery Speed *</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-modern btn-primary btn-lg">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span>Book Package</span>
+                                </button>
+                                <button type="reset" class="btn-modern btn-outline btn-lg">
+                                    <i class="fas fa-times"></i>
+                                    <span>Clear Form</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="booking-sidebar">
+                        <div class="glass-card cost-calculator">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calculator"></i> Cost Calculator</h3>
+                            </div>
+                            <div class="card-content">
+                                <div id="costBreakdown">
+                                    <p class="text-muted">Enter package weight and service type to calculate cost</p>
+                                </div>
+                                <div class="total-cost">
+                                    <span>Total Cost:</span>
+                                    <span class="amount">₹<span id="totalCost">0</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card service-info">
+                            <div class="card-header">
+                                <h3><i class="fas fa-info-circle"></i> Service Information</h3>
+                            </div>
+                            <div class="card-content">
+                                <div id="serviceDetails"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pickup Confirmation Module -->
+        <div id="pickupModule" class="module-content" style="display: none;">
+            <div class="pickup-container">
+                <div class="pickup-header">
+                    <h1><i class="fas fa-hand-paper"></i> Pickup Confirmation</h1>
+                    <p>Confirm package pickup to update status</p>
+                </div>
+                
+                <div class="glass-card pickup-form-card">
+                    <div class="card-header">
+                        <h3>Package Pickup Details</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="pickupPackageDetails"></div>
+                        
+                        <form id="pickupForm" class="modern-form">
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <input type="text" id="pickupConfirmerName" required>
+                                    <label>Pickup Confirmed By *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="file-wrapper">
+                                    <input type="file" id="pickupPhoto" accept="image/*">
+                                    <label for="pickupPhoto" class="file-label">
+                                        <i class="fas fa-camera"></i>
+                                        Upload Pickup Photo (Optional)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <textarea id="pickupNotes" rows="3"></textarea>
+                                    <label>Additional Notes</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-modern btn-success btn-lg">
+                                    <i class="fas fa-check"></i>
+                                    <span>Confirm Pickup</span>
+                                </button>
+                                <button type="button" class="btn-modern btn-outline btn-lg" onclick="showModule('dashboard')">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Back to Dashboard</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Confirmation Module -->
+        <div id="deliveryModule" class="module-content" style="display: none;">
+            <div class="delivery-container">
+                <div class="delivery-header">
+                    <h1><i class="fas fa-check-circle"></i> Delivery Confirmation</h1>
+                    <p>Confirm package delivery completion</p>
+                </div>
+                
+                <div class="glass-card delivery-form-card">
+                    <div class="card-header">
+                        <h3>Package Delivery Details</h3>
+                    </div>
+                    <div class="card-content">
+                        <div id="deliveryPackageDetails"></div>
+                        
+                        <form id="deliveryForm" class="modern-form">
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <input type="text" id="deliveryReceiverName" required>
+                                    <label>Delivered To *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="file-wrapper">
+                                    <input type="file" id="deliveryPhoto" accept="image/*">
+                                    <label for="deliveryPhoto" class="file-label">
+                                        <i class="fas fa-camera"></i>
+                                        Upload Delivery Photo (Optional)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="signature-wrapper">
+                                    <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                                    <label>Digital Signature (Optional)</label>
+                                    <button type="button" class="btn-modern btn-sm btn-outline" onclick="clearSignature()">
+                                        <i class="fas fa-eraser"></i>
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <textarea id="deliveryNotes" rows="3"></textarea>
+                                    <label>Delivery Notes</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-modern btn-success btn-lg">
+                                    <i class="fas fa-check-double"></i>
+                                    <span>Confirm Delivery</span>
+                                </button>
+                                <button type="button" class="btn-modern btn-outline btn-lg" onclick="showModule('dashboard')">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Back to Dashboard</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracking Module -->
+        <div id="trackingModule" class="module-content" style="display: none;">
+            <div class="tracking-container">
+                <div class="tracking-header">
+                    <h1><i class="fas fa-search"></i> Track Your Package</h1>
+                    <p>Enter your tracking ID to get real-time updates</p>
+                </div>
+                
+                <div class="glass-card tracking-search">
+                    <div class="card-content">
+                        <form id="trackingForm">
+                            <div class="search-input-group">
+                                <input type="text" id="trackingId" placeholder="Enter Tracking ID (e.g., RJC20250804001)" required>
+                                <button type="submit" class="btn-modern btn-primary">
+                                    <i class="fas fa-search"></i>
+                                    Track
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="trackingResult" class="tracking-result" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- My Profile Module -->
+        <div id="profileModule" class="module-content" style="display: none;">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1><i class="fas fa-user"></i> My Profile</h1>
+                    <p>View and edit your account information</p>
+                </div>
+                
+                <div class="glass-card profile-form-card">
+                    <div class="card-header">
+                        <h3>Personal Information</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="profileForm" class="modern-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="profileName" required>
+                                        <label>Full Name *</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="tel" id="profilePhone" required>
+                                        <label>Phone Number *</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <input type="email" id="profileEmail" readonly>
+                                    <label>Email Address (Cannot be changed)</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="input-wrapper">
+                                    <textarea id="profileAddress" rows="3" required></textarea>
+                                    <label>Address *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-modern btn-primary btn-lg">
+                                    <i class="fas fa-save"></i>
+                                    <span>Save Changes</span>
+                                </button>
+                                <button type="button" class="btn-modern btn-outline btn-lg" onclick="showModule('dashboard')">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Back to Dashboard</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking History Module -->
+        <div id="historyModule" class="module-content" style="display: none;">
+            <div class="history-container">
+                <div class="history-header">
+                    <h1><i class="fas fa-history"></i> Booking History</h1>
+                    <p>View all your previous package bookings</p>
+                </div>
+                
+                <div class="history-filters">
+                    <div class="glass-card">
+                        <div class="card-content">
+                            <div class="filter-row">
+                                <div class="form-group">
+                                    <div class="select-wrapper">
+                                        <select id="historyStatusFilter" onchange="filterHistory()">
+                                            <option value="">All Status</option>
+                                        </select>
+                                        <label>Filter by Status</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="historySearchInput" placeholder="Search by tracking ID or receiver..." onkeyup="searchHistory()">
+                                        <label>Search</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card history-table">
+                    <div class="card-header">
+                        <h3>Your Bookings</h3>
+                        <button class="btn-modern btn-secondary btn-sm" onclick="loadBookingHistory()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div id="historyTableContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal" style="display: none;">
+        <div class="modern-modal success-modal">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="modal-content">
+                <h3>Success!</h3>
+                <div id="successMessage"></div>
+            </div>
+            <button class="btn-modern btn-success" onclick="closeModal('successModal')">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal" style="display: none;">
+        <div class="modern-modal error-modal">
+            <div class="modal-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="modal-content">
+                <h3>Error!</h3>
+                <div id="errorMessage"></div>
+            </div>
+            <button class="btn-modern btn-danger" onclick="closeModal('errorModal')">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-fab" id="floatingFab" style="display: none;">
+        <button class="fab-button" onclick="showModule('booking')">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="fab-tooltip">Book New Delivery</div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
